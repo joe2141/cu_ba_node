@@ -1,17 +1,43 @@
-class ProductsService{
+const faker = require('faker');
+class ProductsService {
 
-    constructor(){}
+  constructor() {
+    this.products = [];
+    this.generate();
+  }
 
-
-    create  () {
-
+  generate() {
+    const limit = 100;
+    for (let index = 0; index < limit; index++) {
+      this.products.push({
+        id: faker.datatype.uuid(),
+        name: faker.commerce.productName(),
+        price: parseInt(faker.commerce.price(), 10),
+        image: faker.image.imageUrl(),
+      });
     }
+  }
 
-    find() {
-
+  create(data) {
+    const newProducts = {
+      id: faker.datatype.uuid(),
+      ...data
     }
+    this.products.push(newProducts);
+      return newProducts;
+  }
 
-    findOne() {
+  find() {
+    return this.products
+  }
 
-    }
+  findOne(id) {
+    return this.products.find(item => item.id === id);
+  }
+
+  update() {}
+
+  delete() {}
 }
+
+module.exports = ProductsService;
